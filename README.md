@@ -2,10 +2,10 @@
 
 This repo contains a collection of tools primarily around strava segments. It contains a few runnable scripts
 
-* **Segment Leaderboard**: A tool for automatically creating segment challenge leaderboards
+* **Segment Leaderboard**: A tool for automatically creating segment challenge leaderboards.
 * **Segment Tracker**: Takes a leaderboard config file and outputs segments that a particular user has not completed yet.
 * **Star Segments**: Takes a list of segments and stars them.
-* **Route Builder**: A tool for automatically creating a route from a set of segments
+* **Route Builder**: A tool for automatically creating a route from a set of segments.
 
 See below for more information on each tool
 
@@ -84,7 +84,7 @@ The output format is a CSV file with athlete_name, total_points, total_num_segme
 ## Segment Tracker
 
 The segment tracker is designed to work with leaderboard challenges, where a person wants to know what segments they still have to complete. The command line is the same
-as the leaderboard plus the name of the person you want to track. Example: `python segmentracker.py --config_file=examples/august_neighborhood_segment_challenge.txt --cookie_file=stravacookies.txt --output_dir=/Users/vjc --name="Vinay Chaudhary`
+as the leaderboard plus the name of the person you want to track. Example: `python segmentracker.py --config_file=examples/august_neighborhood_segment_challenge.txt --cookie_file=stravacookies.txt --output_dir=/Users/vjc --name="Vinay Chaudhary"`
 
 ## Route Builder
 
