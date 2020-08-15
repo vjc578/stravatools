@@ -1,3 +1,5 @@
+# From https://github.com/CarlEkerot/held-karp
+
 import itertools
 import random
 import sys
