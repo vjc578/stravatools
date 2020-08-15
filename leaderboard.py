@@ -99,8 +99,7 @@ class SegmentCrawler():
             page_number = page_number + 1
             count = parser.count
 
-
-class SegmentStatisticsAggregator():
+class SegmentRankingsGatherer:
     class TimeMapSegmentHTMLParserFactory():
         def __init__(self,  config, time_map):
             self.time_map = time_map
@@ -109,9 +108,8 @@ class SegmentStatisticsAggregator():
         def new(self):
             return TimeMapSegmentHTMLParser(self.time_map, self.config)
 
-    def __init__(self,  segment, collected_data, config, run_config):
+    def __init__(self,  segment, config, run_config):
          self.segment = segment
-         self.collected_data = collected_data
          self.config = config
          self.run_config = run_config
 
@@ -130,6 +128,15 @@ class SegmentStatisticsAggregator():
 
         rankings = [(k, v) for k, v in time_map.items()]
         rankings.sort(key=(lambda a : a[1]))
+
+        self.process_rankings(rankings)
+
+class SegmentStatisticsAggregator(SegmentRankingsGatherer):
+    def __init__(self,  segment, collected_data, config, run_config):
+         super().__init__(segment, config, run_config)
+         self.collected_data = collected_data
+
+    def process_rankings(self, rankings):
         count = 0
         prev_time = -1
         prev_points = -1

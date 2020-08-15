@@ -6,6 +6,7 @@ This repo contains a collection of tools primarily around strava segments. It co
 * **Segment Tracker**: Takes a leaderboard config file and outputs segments that a particular user has not completed yet.
 * **Star Segments**: Takes a list of segments and stars them.
 * **Route Builder**: A tool for automatically creating a route from a set of segments.
+* **Individual Segment Rankings**: Gives csv file with segment,ranking,total_num_riders for a particular person. Not documented because its bad right now.
 
 See below for more information on each tool
 
