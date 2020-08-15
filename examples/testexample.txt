@@ -1,0 +1,15 @@
+{
+    "segments": [
+        "18009162",
+        "12602205"
+    ],
+    "points" : [35, 30, 27, 24, 22, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+    "participation_points": 10,
+    "unmatched_participation_points": 10,
+    "runs" : [
+        {
+            "output_file": "Overall.txt",
+            "options": ["filter=overall&date_range=this_month"]
+        }
+    ]
+}
