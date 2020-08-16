@@ -101,7 +101,7 @@ Follow the steps [here](https://developers.strava.com/docs/getting-started/#acco
 2. Next, get a Google Maps API key. If you have not used Google Cloud Platform or Maps
 APIs before, this takes a few steps. Follow the instructions [here](https://developers.google.com/maps/documentation/directions/get-api-key)
 3. If you've never run the program before you'll need to install the google maps python
-code. To do so, run `pip install -U googlemaps`.
+library and the haversine distance library. To do so, run `pip install -U googlemaps` and then `pip install haversine`.
 4. Now run the command with the Strava access token and Maps API key. Below is the usage and example. It will output the gpx file in the location you specified.
 5. Upload the route to Strava or Garmin
    * **Strava**: The gpx to strava route feature no longer works for me, so I've been uploading the gpx file as a ride and then making a route from it. To do this, upload your gpx file as a ride. Mark it as private to avoid sharing the ride you didn't actually do. Now click the ... icon next to the ride and create a route from it. Delete your fake ride once you are done.
