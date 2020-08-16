@@ -51,15 +51,13 @@ class SegmentHTMLParser(HTMLParser):
             seconds = 0
             parts = data.split(":")
             if len(parts) is 1:
-                # Format is number followed by an s (e.g. 49s) for seconds
-                seconds = int(data[0:len(data) - 1])
+                seconds = int(data)
             elif len(parts) is 2:
                 # Format is mm:ss
                 seconds = 60* int(parts[0]) + int(parts[1])
             elif len(parts) is 3:
                 # Format is hh:mm:ss
                 seconds = 3600 * int(parts[0]) + 60 * int(parts[1]) + int(parts[2])
-
             # TODO: If its already in the map, throw exception?
             self.handle_person(self.person, seconds)
             self.count = self.count + 1

@@ -103,13 +103,7 @@ APIs before, this takes a few steps. Follow the instructions [here](https://deve
 3. If you've never run the program before you'll need to install the google maps python
 code. To do so, run `pip install -U googlemaps`.
 4. Now run the command with the Strava access token and Maps API key. Below is the usage and example. It will output the gpx file in the location you specified.
-5. Unfortunately this gpx file cannot yet be made into a strava or garmin route. It
-needs to have additional data added to it. I haven't yet figured out exactly what is
-required (but haven't tried that hard). Until I do, you'll need to use the [gotoes](https://gotoes.org/strava/Add_Timestamps_To_GPX.php) website. Upload the generated
-output file to that website, set the speed at 1mph (not required, but good in case
-you upload to strava and don't mark it as private by accident. The default is 20mph, which will result in you getting the KOM on any steep hill). Click the "Click here"
-button to go to the download page. Click the "Click Here To Combine GPS Files Using Above Parameters" to get your file.
-6. Upload the route to Strava or Garmin
+5. Upload the route to Strava or Garmin
    * **Strava**: The gpx to strava route feature no longer works for me, so I've been uploading the gpx file as a ride and then making a route from it. To do this, upload your gpx file as a ride. Mark it as private to avoid sharing the ride you didn't actually do. Now click the ... icon next to the ride and create a route from it. Delete your fake ride once you are done.
    * **Garmin**: Garmin supports just uploading the GPX file. Go to Garmin Connect,
   click Training->Courses then click "Import" and select the output GPX file.

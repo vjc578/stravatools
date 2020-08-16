@@ -11,6 +11,18 @@ from os import path
 
 import googlemaps
 import heldkarp
+from datetime import datetime
+import time
+from haversine import haversine, Unit
+
+def compute_distance_in_miles(latlons):
+    distance = 0
+    prev = latlons[0]
+    for latlon in latlons:
+        distance = distance + haversine((float(prev["lat"]), float(prev["lng"])),
+                                        (float(latlon["lat"]), float(latlon["lng"])),
+                                        unit=Unit.MILES)
+    return distance
 
 def download_segment_data(access_token, segment_id):
   completed = subprocess.run(["curl", "-G", "https://www.strava.com/api/v3/segments/{}".format(segment_id), "-H", "Authorization: Bearer {}".format(access_token)], capture_output=True)
@@ -19,17 +31,39 @@ def download_segment_data(access_token, segment_id):
       file.write(segment_json)
 
 def write_gpx(latlons, filename):
+    overall_distance = compute_distance_in_miles(latlons)
+
+    # We move at 1mph, so set the start time to back far enough so the ride doesn't
+    # end in the future. Note that we attempt to make this look like a real ride
+    # because otherwise Strava rejects the GPX file. Unfortunately the only way
+    # to create a route on Strava is to upload it as a ride first and then make
+    # a route from that, so we have to do this.
+    current_time = time.time() - overall_distance * 3600 * 2
+    current_datetime_string = datetime.fromtimestamp(current_time).strftime(
+        "%Y-%m-%dT%H:%M:%SZ")
+
     with open(filename, 'w') as file:
         file.write(r'<?xml version="1.0" encoding="UTF-8"?>')
         file.write('\n')
-        file.write(r'<gpx version="1.0">')
-        file.write(r'  <name>Example gpx</name>')
+        file.write(r'''<gpx xmlns="http://www.topografix.com/GPX/1/1"
+                        xmlns:gpxdata="http://www.cluetrust.com/XML/GPXDATA/1/0"
+                        creator="--No GPS SELECTED--" version="8.1">''')
+        file.write('<metadata><time>{}</time></metadata>'.format(current_datetime_string))
+        file.write(r'  <name>Example gpx</name><type>Biking</type>')
         file.write('\n')
         file.write(r'  <trk><name>Example gpx</name><number>1</number><trkseg>')
         file.write('\n')
+        prev_latlon = latlons[0]
         for latlon in latlons:
-            file.write('    <trkpt lat="{}" lon="{}"></trkpt>'.format(latlon["lat"], latlon["lng"]))
+            # Move forward at 1mph plus a 1 second slack.
+            difference_distance = compute_distance_in_miles([prev_latlon, latlon])
+            current_time = current_time + 1 + (3600)*difference_distance
+
+            current_datetime_string = datetime.fromtimestamp(current_time).strftime(
+              "%Y-%m-%dT%H:%M:%SZ")
+            file.write('    <trkpt lat="{}" lon="{}"><time>{}</time></trkpt>'.format(latlon["lat"], latlon["lng"], current_datetime_string))
             file.write('\n')
+            prev_latlon = latlon
         file.write('  </trkseg></trk>')
         file.write('\n')
         file.write('</gpx>')
@@ -106,12 +140,7 @@ def get_segment_ordering_greedy(gmaps, start_latlng, segment_latlngs, max_segmen
 
             segment_latlng_start = segment_latlngs[i][0]
 
-            # As the crow flies distance. If you are doing distances where the curvature of
-            # the earth starts to matter, more power to you, but this won't work.
-            distances = distances + (
-              [(i,
-                math.sqrt(pow(float(origin["lat"]) - float(segment_latlng_start["lat"]), 2) +
-                          pow(float(origin["lng"]) - float(segment_latlng_start["lng"]), 2)))])
+            distances = distances + [(i, compute_distance_in_miles([origin, segment_latlng_start]))]
 
         # Sort by distance.
         distances.sort(key=(lambda a : a[1]))
