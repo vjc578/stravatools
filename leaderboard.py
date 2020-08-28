@@ -82,7 +82,6 @@ class SegmentCrawler():
 
     def crawl(self, segment_id, option, parser_factory):
         page_number = 1
-        count = 0
         while True:
             segment_url = "https://www.strava.com/segments/{}?partial=true&{}&page={}&per_page=100".format(segment_id, option, page_number)
             print("Processing URL: " + segment_url)
@@ -92,10 +91,9 @@ class SegmentCrawler():
             parser.feed(completed.stdout.decode("utf-8"))
 
             # Processed everything
-            if (parser.count < 100 * page_number): break
+            if (parser.count < 100): break
 
             page_number = page_number + 1
-            count = parser.count
 
 class SegmentRankingsGatherer:
     class TimeMapSegmentHTMLParserFactory():
